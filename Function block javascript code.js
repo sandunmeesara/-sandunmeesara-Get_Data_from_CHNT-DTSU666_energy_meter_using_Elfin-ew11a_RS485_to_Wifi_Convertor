@@ -56,15 +56,15 @@ msg.payload = decimalValue;
 }
 
 //data object
-if (payloadObject.key === "Data1") {
+if (payloadObject.key === "Uab_Qc") {
 var valueString = payloadObject.value;
 
 // Extract the desired part from the value
-var desiredPart = valueString.substring(6, 182);
+var desiredPart = valueString.substring(6,142);
 var splitValues = desiredPart.match(/.{1,8}/g);
 
 // Example usage with the specified keys and your provided array:
-const keysString = "Uab Ubc Uca Ua Ub Uc Ia Ib Ic Pt Pa Pb Pc Qt Qa Qb Qc PFt PFa PFb PFc Frequency";
+const keysString = "Uab Ubc Uca Ua Ub Uc Ia Ib Ic Pt Pa Pb Pc Qt Qa Qb Qc";
 const valuesArray = splitValues;
 
 // Split the keys string by spaces:
