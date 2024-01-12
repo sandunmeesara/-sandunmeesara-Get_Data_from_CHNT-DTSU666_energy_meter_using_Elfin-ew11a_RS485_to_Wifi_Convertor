@@ -187,7 +187,8 @@ if (payloadObject.key === "Ia_Ic") {
         if (typeof valuesArray[i] === "string") {
           // Convert IEEE-754 hexadecimal to decimal:
           const decimalValue = hexToFloat32(valuesArray[i]);
-          jsonObject[keys[i]] = decimalValue;
+          var dec = decimalValue/34.48;
+          jsonObject[keys[i]] = dec;
         } else {
           jsonObject[keys[i]] = valuesArray[i];
         }
