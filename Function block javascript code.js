@@ -53,16 +53,16 @@ msg.payload = decimalValue;
 
 }
 
-//Uab_Qc object
-if (payloadObject.key === "Uab_Qc") {
+//Uab_Uc object
+if (payloadObject.key === "Uab_Uc") {
 var valueString = payloadObject.value;
 
 // Extract the desired part from the value
-var desiredPart = valueString.substring(6,142);
+var desiredPart = valueString.substring(6,54);
 var splitValues = desiredPart.match(/.{1,8}/g);
 
 // Example usage with the specified keys and your provided array:
-const keysString = "Uab Ubc Uca Ua Ub Uc Ia Ib Ic Pt Pa Pb Pc Qt Qa Qb Qc";
+const keysString = "Uab Ubc Uca Ua Ub Uc";
 const valuesArray = splitValues;
 
 // Split the keys string by spaces:
@@ -79,7 +79,8 @@ if (keys.length !== valuesArray.length) {
     if (typeof valuesArray[i] === "string") {
       // Convert IEEE-754 hexadecimal to decimal:
       const decimalValue = hexToFloat32(valuesArray[i]);
-      jsonObject[keys[i]] = decimalValue;
+      var dec = decimalValue * 0.1;
+      jsonObject[keys[i]] = dec;
     } else {
       jsonObject[keys[i]] = valuesArray[i];
     }
@@ -115,7 +116,8 @@ if (payloadObject.key === "PFt_PFc") {
       if (typeof valuesArray[i] === "string") {
         // Convert IEEE-754 hexadecimal to decimal:
         const decimalValue = hexToFloat32(valuesArray[i]);
-        jsonObject[keys[i]] = decimalValue;
+        var dec = decimalValue * 0.001;
+        jsonObject[keys[i]] = dec;
       } else {
         jsonObject[keys[i]] = valuesArray[i];
       }
@@ -151,7 +153,8 @@ if (payloadObject.key === "Frequency") {
       if (typeof valuesArray[i] === "string") {
         // Convert IEEE-754 hexadecimal to decimal:
         const decimalValue = hexToFloat32(valuesArray[i]);
-        jsonObject[keys[i]] = decimalValue;
+        var dec = decimalValue * 0.01;
+        jsonObject[keys[i]] = dec;
       } else {
         jsonObject[keys[i]] = valuesArray[i];
       }
@@ -161,7 +164,7 @@ if (payloadObject.key === "Frequency") {
   
   }
 
-//Current data object
+//Ia_Ic data object
 if (payloadObject.key === "Ia_Ic") {
     var valueString = payloadObject.value;
     
@@ -198,16 +201,16 @@ if (payloadObject.key === "Ia_Ic") {
     
   }
 
-//Ia Current data object
-if (payloadObject.key === "Ia") {
+//Pt_Qc data object
+if (payloadObject.key === "Pt_Qc") {
     var valueString = payloadObject.value;
     
     // Extract the desired part from the value
-    var desiredPart = valueString.substring(6,14);
+    var desiredPart = valueString.substring(6,70);
     var splitValues = desiredPart.match(/.{1,8}/g);
     
     // Example usage with the specified keys and your provided array:
-    const keysString = "Ia";
+    const keysString = "Pt Pa Pb Pc Qt Qa Qb Qc";
     const valuesArray = splitValues;
     
     // Split the keys string by spaces:
@@ -224,7 +227,7 @@ if (payloadObject.key === "Ia") {
         if (typeof valuesArray[i] === "string") {
           // Convert IEEE-754 hexadecimal to decimal:
           const decimalValue = hexToFloat32(valuesArray[i]);
-          var dec = decimalValue/34.48;
+          var dec = decimalValue / 34.8 *0.1;
           jsonObject[keys[i]] = dec;
         } else {
           jsonObject[keys[i]] = valuesArray[i];
@@ -233,6 +236,42 @@ if (payloadObject.key === "Ia") {
     
     msg.payload = jsonObject;
     
- }
+  }
+
+//ImpEp_Q4Eq data object
+if (payloadObject.key === "ImpEp_Q4Eq") {
+    var valueString = payloadObject.value;
+    
+    // Extract the desired part from the value
+    var desiredPart = valueString.substring(6,210);
+    var splitValues = desiredPart.match(/.{1,8}/g);
+    
+    // Example usage with the specified keys and your provided array:
+    const keysString = "ImpEp n n n n ExpEp n n n n Q1Eq n n n n Q2Eq n n n n Q3Eq n n n n Q4Eq";
+    const valuesArray = splitValues;
+    
+    // Split the keys string by spaces:
+    const keys = keysString.split(" ");
+    
+    // Check for length mismatch:
+    if (keys.length !== valuesArray.length) {
+      throw new Error("Number of keys and values must match.");
+    }
+    
+    // Create the JSON object:
+      const jsonObject = {};
+      for (let i = 0; i < keys.length; i++) {
+        if (typeof valuesArray[i] === "string") {
+          // Convert IEEE-754 hexadecimal to decimal:
+          const decimalValue = hexToFloat32(valuesArray[i]);
+          jsonObject[keys[i]] = decimalValue;
+        } else {
+          jsonObject[keys[i]] = valuesArray[i];
+        }
+      }
+    
+    msg.payload = jsonObject;
+    
+  }
 // Pass the modified message along to the next node in the flow
 return msg;
