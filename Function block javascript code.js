@@ -37,9 +37,10 @@ function hexToFloat32(hexString) {
 
 // Assuming msg.payload is already an object
 var payloadObject = msg.payload;
+let IrAt = global.get("IrAt_Global");
 
 // Extract the "value" from the object
-if (payloadObject.key === "Pro_Code") {
+if (payloadObject.key === "IrAt") {
 var valueString = payloadObject.value;
 
 // Extract the desired part ("02BD") from the value
@@ -47,9 +48,9 @@ var desiredPart = valueString.substring(6, 10);
 
 // Convert the desired part to decimal
 var decimalValue = parseInt(desiredPart, 16);
-
+global.set("IrAt_Global", decimalValue);
 // Update the payload with the decimal value
-msg.payload = decimalValue;
+msg.payload = IrAt;
 
 }
 
@@ -190,7 +191,7 @@ if (payloadObject.key === "Ia_Ic") {
         if (typeof valuesArray[i] === "string") {
           // Convert IEEE-754 hexadecimal to decimal:
           const decimalValue = hexToFloat32(valuesArray[i]);
-          var dec = decimalValue/34.48;
+          var dec = decimalValue * IrAt * 0.001;
           jsonObject[keys[i]] = dec;
         } else {
           jsonObject[keys[i]] = valuesArray[i];
@@ -227,7 +228,7 @@ if (payloadObject.key === "Pt_Qc") {
         if (typeof valuesArray[i] === "string") {
           // Convert IEEE-754 hexadecimal to decimal:
           const decimalValue = hexToFloat32(valuesArray[i]);
-          var dec = decimalValue / 34.8 *0.1;
+          var dec = decimalValue * IrAt * 0.1 /1000;
           jsonObject[keys[i]] = dec;
         } else {
           jsonObject[keys[i]] = valuesArray[i];
@@ -264,7 +265,7 @@ if (payloadObject.key === "ImpEp_Q4Eq") {
         if (typeof valuesArray[i] === "string") {
           // Convert IEEE-754 hexadecimal to decimal:
           const decimalValue = hexToFloat32(valuesArray[i]);
-          var dec = decimalValue/34.8 *1000;
+          var dec = decimalValue * IrAt;
           jsonObject[keys[i]] = dec;
         } else {
           jsonObject[keys[i]] = valuesArray[i];
